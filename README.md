@@ -1,2 +1,2 @@
 # Dragons-Legacy-Cheat-SDK
-internal C++ cheat base
+internal C++ cheat base for dragons legacy
