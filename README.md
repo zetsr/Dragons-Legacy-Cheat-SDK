@@ -10,3 +10,5 @@ internal C++ cheat base for dragons legacy
 [EntityList.h](https://github.com/zetsr/Dragons-Legacy-Cheat-SDK/blob/main/begeerte_sdk/EntityList.h)
 
 [LocalPlayer.h](https://github.com/zetsr/Dragons-Legacy-Cheat-SDK/blob/main/begeerte_sdk/LocalPlayer.h)
+
+[SDK.h](https://github.com/zetsr/Dragons-Legacy-Cheat-SDK/blob/main/begeerte_sdk/SDK.h)
