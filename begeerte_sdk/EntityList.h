@@ -92,7 +92,7 @@ namespace EntityList {
             static Vector::Vec3 lastLand = currentLand;
 
             // 定义变化阈值，避免浮点数精度问题
-            const float epsilon = 0.001f;  // 可根据实际情况调整
+            const float epsilon = 0.01f;  // 可根据实际情况调整
 
             // 计算当前帧与上一帧的距离变化
             float airDistance = currentAir.Distance(lastAir);

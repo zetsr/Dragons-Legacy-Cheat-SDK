@@ -2,8 +2,8 @@
 #include <Windows.h>
 
 namespace Hook {
-    void Initialize();
-    void Cleanup();
+    void Hook_Initialize();
+    void Hook_Cleanup();
     DWORD64 GetLocalPlayerAddress();
     DWORD64 GetLocalCameraPositionAddress();
     DWORD64 GetClientCurrentTimeAddress();

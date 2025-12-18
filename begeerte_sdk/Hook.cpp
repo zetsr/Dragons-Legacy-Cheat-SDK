@@ -6,6 +6,7 @@
 #include "Memory.h"
 #include <thread>
 #include <stdio.h>
+#include "Logs.h"
 
 namespace Hook {
     static bool isRunning = false;
@@ -44,21 +45,21 @@ namespace Hook {
         }
     }
 
-    void Initialize() {
-        Console::Initialize();
+    void Hook_Initialize() {
+        // Console::Initialize();
         isRunning = true;
         hookThread = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)UpdateThread, nullptr, 0, nullptr);
-        printf("Hook initialized.\n");
+        Logs::LogManager::GetInstance()->Printf(L"Hook initialized.\n");
     }
 
-    void Cleanup() {
+    void Hook_Cleanup() {
         isRunning = false;
         if (hookThread) {
             WaitForSingleObject(hookThread, INFINITE);
             CloseHandle(hookThread);
             hookThread = nullptr;
         }
-        Console::Cleanup();
+        // Console::Cleanup();
     }
 
     DWORD64 GetLocalPlayerAddress() {

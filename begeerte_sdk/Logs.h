@@ -1,45 +1,45 @@
 #pragma once
-#include <windows.h>
 #include <vector>
 #include <string>
 #include <mutex>
-#include "GDI.h"
-#include "CheatData.h"
+#include <imgui.h>
 
 namespace Logs {
+    struct LogEntry {
+        std::wstring text;
+        float lifetime;
+    };
+
     class LogManager {
     public:
-        LogManager();
-        ~LogManager();
-        void Initialize();
-        void Run();
-        void Printf(const wchar_t* format, ...);
-        void Render();
-        void Update(float deltaTime);
-        static void Thread();
+        LogManager() = default;
+        ~LogManager() = default;
 
-        static LogManager* s_instance;
-        static HANDLE s_threadHandle;
+        // 核心绘制函数：在 ImGui 渲染循环中调用
+        void DrawLogs();
+
+        // 逻辑更新函数：处理日志淡出/消失
+        void Update(float deltaTime);
+
+        // 格式化输入日志
+        void Printf(const wchar_t* format, ...);
+
+        static LogManager* GetInstance() {
+            static LogManager instance;
+            return &instance;
+        }
 
     private:
-        static DWORD WINAPI ThreadProc(LPVOID lpParam);
-        void UpdateLogs(float deltaTime);
-
-        struct LogEntry {
-            std::wstring text;
-            float lifetime;
-        };
-
-        GDI::Renderer m_renderer;
         std::vector<LogEntry> m_logs;
         std::mutex m_logsMutex;
+
         const int m_maxLogs = 10;
         const float m_logLifetime = 7.0f;
-        const int m_radarWidth = 200;
-        const int m_offsetX = 5;
-        const int m_offsetY = 5;
+        const float m_offsetX = 205.0f; // 对应原代码 m_radarWidth + m_offsetX
+        const float m_offsetY = 3.0f;
+        const float m_lineHeight = 20.0f;
+
+        // 辅助工具：将 wstring 转为 ImGui 需要的 UTF-8 string
+        std::string WStringToString(const std::wstring& wstr);
     };
 }
-
-inline Logs::LogManager* Logs::LogManager::s_instance = nullptr;
-inline HANDLE Logs::LogManager::s_threadHandle = nullptr;

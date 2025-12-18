@@ -18,6 +18,66 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Cheat.cpp" />
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EntityList.cpp" />
+    <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="Hook.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="LocalPlayer.cpp" />
+    <ClCompile Include="Logs.cpp" />
+    <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui\hooks.cpp" />
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui\input.cpp" />
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui\render.cpp" />
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui\setup_imgui.cpp" />
+    <ClCompile Include="Offset.cpp" />
+    <ClCompile Include="PointerScanner.cpp" />
+    <ClCompile Include="Radar.cpp" />
+    <ClCompile Include="SDK.cpp" />
+    <ClCompile Include="Vector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cheat.h" />
+    <ClInclude Include="CheatData.h" />
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="EntityList.h" />
+    <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="Hook.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_dx12.h" />
+    <ClInclude Include="ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="LocalPlayer.h" />
+    <ClInclude Include="Logs.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="MinHook\MinHook.h" />
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui\global.h" />
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui\hooks.h" />
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui\input.h" />
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui\render.h" />
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui\setup_imgui.h" />
+    <ClInclude Include="Offset.h" />
+    <ClInclude Include="PointerScanner.h" />
+    <ClInclude Include="Radar.h" />
+    <ClInclude Include="SDK.h" />
+    <ClInclude Include="Vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="MinHook\libMinHook.x64.lib" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -48,7 +108,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -137,6 +197,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)ImGui;$(ProjectDir)MinHook;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,45 +207,6 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Aimbot.h" />
-    <ClInclude Include="Cheat.h" />
-    <ClInclude Include="CheatData.h" />
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="EntityList.h" />
-    <ClInclude Include="ErrorHandler.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="GDI.h" />
-    <ClInclude Include="Hook.h" />
-    <ClInclude Include="LocalPlayer.h" />
-    <ClInclude Include="Logs.h" />
-    <ClInclude Include="Memory.h" />
-    <ClInclude Include="Offset.h" />
-    <ClInclude Include="PointerScanner.h" />
-    <ClInclude Include="Radar.h" />
-    <ClInclude Include="SDK.h" />
-    <ClInclude Include="ShotManager.h" />
-    <ClInclude Include="Vector.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Aimbot.cpp" />
-    <ClCompile Include="Cheat.cpp" />
-    <ClCompile Include="Console.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="EntityList.cpp" />
-    <ClCompile Include="ErrorHandler.cpp" />
-    <ClCompile Include="GDI.cpp" />
-    <ClCompile Include="Hook.cpp" />
-    <ClCompile Include="LocalPlayer.cpp" />
-    <ClCompile Include="Logs.cpp" />
-    <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="Offset.cpp" />
-    <ClCompile Include="PointerScanner.cpp" />
-    <ClCompile Include="Radar.cpp" />
-    <ClCompile Include="SDK.cpp" />
-    <ClCompile Include="ShotManager.cpp" />
-    <ClCompile Include="Vector.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
