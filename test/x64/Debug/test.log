@@ -1,0 +1,6 @@
+﻿  dllmain.cpp
+C:\Users\zetsr\Desktop\vs\test\dllmain.cpp(244,13): warning C4101: “hr”: 未引用的局部变量
+  libMinHook.x64.lib(hook.obj) : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
+LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/LTCG”规范)
+LINK : fatal error C1900: “P1”(第“20240319”版)和“P2”(第“20210202”版)之间 Il 不匹配
+LINK : fatal error LNK1257: 代码生成失败
