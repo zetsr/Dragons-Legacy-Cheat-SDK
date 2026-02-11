@@ -1,13 +1,52 @@
-#include "../Minimal-D3D12-Hook-ImGui-1.0.0/Main/mdx12_api.h"
-#include "../CppSDK/SDK.hpp"
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/Main/mdx12_api.h"
+#include "SDK_Headers.hpp"
 #include "ESP.h"
 #include "Configs.h"
 #include "DrawESP.h"
 
 namespace g_DrawESP {
+    // 定义一个简单的结构体来存放名称和颜色
+    struct DisplayInfo {
+        std::string name;
+        ImU32 color;
+    };
+
+    // 获取物种信息
+    DisplayInfo GetSpeciesInfo(SDK::AChar_Parent_All_C* BaseChar) {
+        SDK::FString fName = L"未知";
+        ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        switch (BaseChar->BiologicalSpecies) {
+        case SDK::Enum_Species::NewEnumerator1: fName = L"逐火龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator2: fName = L"掠狱龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.4f, 1.0f, 1.0f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator3: fName = L"伏影龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 0.4f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator4: fName = L"酸涎龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.6f, 1.0f, 0.4f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator6: fName = L"震雷龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.4f, 0.7f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator14: fName = L"顾雏龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.4f, 0.4f, 1.0f, 1.0f)); break;
+        case SDK::Enum_Species::NewEnumerator16: fName = L"萤灵龙"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); break;
+        default: fName = SDK::FString(std::to_wstring((unsigned char)BaseChar->BiologicalSpecies).c_str()); break;
+        }
+        return { fName.ToString(), color };
+    }
+
+    // 获取成长阶段信息
+    DisplayInfo GetGrowthStageInfo(SDK::AChar_Parent_All_C* BaseChar) {
+        SDK::FString fName = L"未知阶段";
+        ImU32 color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+        switch (BaseChar->GrowthStage) {
+        case SDK::Enum_GrowthStage::NewEnumerator1: fName = L"幼年"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.8f, 0.8f, 0.8f, 1.0f)); break;
+        case SDK::Enum_GrowthStage::NewEnumerator2: fName = L"青年"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 1.0f, 0.5f, 1.0f)); break;
+        case SDK::Enum_GrowthStage::NewEnumerator3: fName = L"成年"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(0.1f, 0.6f, 1.0f, 1.0f)); break;
+        case SDK::Enum_GrowthStage::NewEnumerator4: fName = L"长者"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); break;
+        case SDK::Enum_GrowthStage::NewEnumerator5: fName = L"远古"; color = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 1.0f, 1.0f)); break;
+        }
+        return { fName.ToString(), color };
+    }
+
     void DrawESP() {
         SDK::UWorld* World = SDK::UWorld::GetWorld();
-        if (!World || !World->GameState) return;
+        if (!World || !World->GameState || !World->PersistentLevel) return;
 
         SDK::APlayerController* LocalPC = g_ESP::GetLocalPC();
         if (!LocalPC || !LocalPC->Pawn) return;
@@ -19,28 +58,38 @@ namespace g_DrawESP {
         float screenW = io.DisplaySize.x;
         float screenH = io.DisplaySize.y;
 
-        SDK::TArray<SDK::APlayerState*>& PlayerArray = World->GameState->PlayerArray;
+        // 遍历场景中所有 Actor
+        SDK::TArray<SDK::AActor*>& Actors = World->PersistentLevel->Actors;
 
-        for (int i = 0; i < PlayerArray.Num(); i++) {
-            SDK::APlayerState* PS = PlayerArray[i];
-            if (!PS || !PS->PawnPrivate || PS->PawnPrivate == LocalPC->Pawn) continue;
+        for (int i = 0; i < Actors.Num(); i++) {
+            SDK::AActor* TargetActor = Actors[i];
 
-            auto TargetActor = reinterpret_cast<SDK::AActor*>(PS->PawnPrivate);
-            auto BaseChar = reinterpret_cast<SDK::AChar_Parent_All_C*>(TargetActor);
-            if (!BaseChar || BaseChar->IsDead) continue;
+            // 基础检查
+            if (!TargetActor || TargetActor == LocalPC->Pawn) continue;
 
-            auto PlayerChar = reinterpret_cast<SDK::AChar_Parent_Player_C*>(TargetActor);
-            if (!PlayerChar) continue;
+            bool bIsPlayer = TargetActor->IsA(SDK::AChar_Parent_Player_C::StaticClass());
+            // 转换为角色基类
+            SDK::AChar_Parent_All_C* BaseChar = reinterpret_cast<SDK::AChar_Parent_All_C*>(TargetActor);
 
-            // 确定关系类型
-            g_ESP::RelationType relation = g_ESP::GetPlayerRelation(PS, LocalPS);
+            // 验证是否为有效角色类
+            if (!BaseChar || !BaseChar->IsA(SDK::AChar_Parent_All_C::StaticClass())) continue;
+            if (BaseChar->IsDead) continue;
 
-            // 根据关系选择配置
+            // 处理关系逻辑
+            // 默认设置为 Enemy，如果能获取到 PlayerState 则判断 Team/Clan
+            g_ESP::RelationType relation = g_ESP::RelationType::Enemy;
+            SDK::APlayerState* TargetPS = BaseChar->PlayerState;
+
+            if (TargetPS) {
+                relation = g_ESP::GetPlayerRelation(TargetPS, LocalPS);
+            }
+
             bool bDrawBox, bDrawHealthBar, bDrawName, bDrawSpecies, bDrawGrowth, bDrawDistance;
             float* BoxColor;
             float* NameColor;
             float* DistanceColor;
 
+            // 配置匹配
             switch (relation) {
             case g_ESP::RelationType::Team:
                 bDrawBox = g_Config::bDrawBoxTeam;
@@ -64,7 +113,7 @@ namespace g_DrawESP {
                 bDrawDistance = g_Config::bDrawDistanceClan;
                 DistanceColor = g_Config::DistanceColorClan;
                 break;
-            default: // Enemy
+            default: // Enemy 逻辑
                 bDrawBox = g_Config::bDrawBox;
                 BoxColor = g_Config::BoxColor;
                 bDrawHealthBar = g_Config::bDrawHealthBar;
@@ -84,7 +133,6 @@ namespace g_DrawESP {
             if (bProjected && bInScreenBounds) {
                 g_ESP::FlagManager flagMgr;
 
-                // 绘制盒子 - 如果没启用，使用 bTestOnly=true 只获取信息
                 g_ESP::BoxRect rect = g_ESP::DrawBox(TargetActor,
                     BoxColor[0] * 255, BoxColor[1] * 255,
                     BoxColor[2] * 255, BoxColor[3] * 255, 0.5f, !bDrawBox);
@@ -113,36 +161,18 @@ namespace g_DrawESP {
                             NameColor[2] * 255, NameColor[3] * 255);
                     }
 
-                    if (bDrawSpecies) {
-                        std::string speciesName;
-                        ImU32 speciesColor;
-                        switch (PlayerChar->CharacterSpecies) {
-                        case SDK::Enum_PlayerCharacter::NewEnumerator0: speciesName = "FS"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); break;
-                        case SDK::Enum_PlayerCharacter::NewEnumerator2: speciesName = "SS"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 0.4f, 1.0f)); break;
-                        case SDK::Enum_PlayerCharacter::NewEnumerator3: speciesName = "ASD"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.6f, 1.0f, 0.4f, 1.0f)); break;
-                        default:
-                            speciesName = "Spec_" + std::to_string((unsigned char)PlayerChar->CharacterSpecies);
-                            speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-                            break;
-                        }
-                        flagMgr.AddFlag(rect, speciesName, speciesColor, g_ESP::FlagPos::Right);
+                    if (bDrawSpecies && bIsPlayer) {
+                        DisplayInfo info = GetSpeciesInfo(BaseChar);
+                        flagMgr.AddFlag(rect, info.name, info.color, g_ESP::FlagPos::Right);
                     }
 
-                    if (bDrawGrowth) {
-                        std::string stageName = "Unknown";
-                        ImU32 stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-                        switch (BaseChar->GrowthStage) {
-                        case SDK::Enum_GrowthStage::NewEnumerator1: stageName = "Hatchling"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.8f, 0.8f, 0.8f, 1.0f)); break;
-                        case SDK::Enum_GrowthStage::NewEnumerator2: stageName = "Juvenile"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 1.0f, 0.5f, 1.0f)); break;
-                        case SDK::Enum_GrowthStage::NewEnumerator3: stageName = "Adult"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.1f, 0.6f, 1.0f, 1.0f)); break;
-                        case SDK::Enum_GrowthStage::NewEnumerator4: stageName = "Elder"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); break;
-                        case SDK::Enum_GrowthStage::NewEnumerator5: stageName = "Ancient"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 1.0f, 1.0f)); break;
-                        }
-                        flagMgr.AddFlag(rect, stageName, stageColor, g_ESP::FlagPos::Right);
+                    if (bDrawGrowth && bIsPlayer) {
+                        DisplayInfo info = GetGrowthStageInfo(BaseChar);
+                        flagMgr.AddFlag(rect, info.name, info.color, g_ESP::FlagPos::Right);
                     }
 
                     if (bDrawDistance) {
-                        float distance = LocalPC->Pawn->GetDistanceTo(TargetActor) / 100.0f;
+                        float distance = (LocalPC && LocalPC->Pawn && TargetActor) ? (LocalPC->Pawn->GetDistanceTo(TargetActor) / 100.0f) : 0.0f;
                         flagMgr.AddFlag(rect, std::to_string((int)distance) + "m", g_Config::GetU32Color(DistanceColor), g_ESP::FlagPos::Right);
                     }
                 }
@@ -150,8 +180,22 @@ namespace g_DrawESP {
             else if (g_Config::bEnableOOF) {
                 std::vector<g_ESP::OOFFlag> oofFlags;
 
-                if (bDrawName && PlayerChar->PlayerName.IsValid()) {
-                    oofFlags.push_back({ PlayerChar->PlayerName.ToString(), g_Config::GetU32Color(NameColor) });
+                if (bDrawName) {
+                    SDK::FString fName = L"AI生物";
+                    if (TargetActor->IsA(SDK::AChar_Parent_Player_C::StaticClass())) {
+                        SDK::AChar_Parent_Player_C* PlayerChar = reinterpret_cast<SDK::AChar_Parent_Player_C*>(TargetActor);
+                        if (PlayerChar && PlayerChar->PlayerName.IsValid()) {
+                            fName = PlayerChar->PlayerName;
+                        }
+                    }
+                    else {
+                        switch (BaseChar->BiologicalSpecies) {
+                        case SDK::Enum_Species::NewEnumerator11: fName = L"小龙虾"; break;
+                        case SDK::Enum_Species::NewEnumerator12: fName = L"螃蟹"; break;
+                        case SDK::Enum_Species::NewEnumerator17: fName = L"鳄鱼"; break;
+                        }
+                    }
+                    oofFlags.push_back({ fName.ToString(), g_Config::GetU32Color(NameColor) });
                 }
 
                 if (bDrawHealthBar) {
@@ -165,36 +209,18 @@ namespace g_DrawESP {
                     oofFlags.push_back({ hpStr, ImGui::ColorConvertFloat4ToU32(hpColor) });
                 }
 
-                if (bDrawSpecies) {
-                    std::string speciesName;
-                    ImU32 speciesColor;
-                    switch (PlayerChar->CharacterSpecies) {
-                    case SDK::Enum_PlayerCharacter::NewEnumerator0: speciesName = "FS"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); break;
-                    case SDK::Enum_PlayerCharacter::NewEnumerator2: speciesName = "SS"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 0.4f, 1.0f)); break;
-                    case SDK::Enum_PlayerCharacter::NewEnumerator3: speciesName = "ASD"; speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.6f, 1.0f, 0.4f, 1.0f)); break;
-                    default:
-                        speciesName = "Spec_" + std::to_string((unsigned char)PlayerChar->CharacterSpecies);
-                        speciesColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-                        break;
-                    }
-                    oofFlags.push_back({ speciesName, speciesColor });
+                if (bDrawSpecies && bIsPlayer) {
+                    DisplayInfo info = GetSpeciesInfo(BaseChar);
+                    oofFlags.push_back({ info.name, info.color });
                 }
 
-                if (bDrawGrowth) {
-                    std::string stageName = "Unknown";
-                    ImU32 stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-                    switch (BaseChar->GrowthStage) {
-                    case SDK::Enum_GrowthStage::NewEnumerator1: stageName = "Hatchling"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.8f, 0.8f, 0.8f, 1.0f)); break;
-                    case SDK::Enum_GrowthStage::NewEnumerator2: stageName = "Juvenile"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 1.0f, 0.5f, 1.0f)); break;
-                    case SDK::Enum_GrowthStage::NewEnumerator3: stageName = "Adult"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(0.1f, 0.6f, 1.0f, 1.0f)); break;
-                    case SDK::Enum_GrowthStage::NewEnumerator4: stageName = "Elder"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); break;
-                    case SDK::Enum_GrowthStage::NewEnumerator5: stageName = "Ancient"; stageColor = ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f, 0.0f, 1.0f, 1.0f)); break;
-                    }
-                    oofFlags.push_back({ stageName, stageColor });
+                if (bDrawGrowth && bIsPlayer) {
+                    DisplayInfo info = GetGrowthStageInfo(BaseChar);
+                    oofFlags.push_back({ info.name, info.color });
                 }
 
                 if (bDrawDistance) {
-                    float distance = LocalPC->Pawn->GetDistanceTo(TargetActor) / 100.0f;
+                    float distance = (LocalPC && LocalPC->Pawn && TargetActor) ? (LocalPC->Pawn->GetDistanceTo(TargetActor) / 100.0f) : 0.0f;
                     oofFlags.push_back({ std::to_string((int)distance) + "m", g_Config::GetU32Color(DistanceColor) });
                 }
 

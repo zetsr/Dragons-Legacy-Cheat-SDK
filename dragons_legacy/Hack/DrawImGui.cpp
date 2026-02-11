@@ -1,7 +1,7 @@
 #define NOMINMAX
 
-#include "../Minimal-D3D12-Hook-ImGui-1.0.0/Main/mdx12_api.h"
-#include "../CppSDK/SDK.hpp"
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/Main/mdx12_api.h"
+#include "SDK_Headers.hpp"
 #include "ESP.h"
 #include "Configs.h"
 #include "DrawESP.h"
@@ -196,10 +196,6 @@ namespace g_DrawImGui {
                 ImGuiColorEditFlags_NoLabel |
                 ImGuiColorEditFlags_NoTooltip;
 
-#ifdef ImGuiColorEditFlags_NoSidePreview
-            picker_flags = (ImGuiColorEditFlags)(picker_flags | ImGuiColorEditFlags_NoSidePreview);
-#endif
-
             ImGui::ColorPicker4("##Picker", col_ptr, picker_flags);
 
             ImGui::EndPopup();
@@ -306,12 +302,6 @@ namespace g_DrawImGui {
                         DrawColorPickerRow("Distance", &g_Config::bDrawDistance, "DistCol1", g_Config::DistanceColor);
                         ImGui::Separator();
 
-                        /*
-                        ImGui::Separator();
-                        ImGui::TextColored(ThemeColors::ACCENT, "Out of FOV Settings");
-                        ImGui::Separator();
-                        */
-
                         DrawColorPickerRow("Out of FOV", &g_Config::bEnableOOF, "OOFCol1", g_Config::OOFColor);
                         if (g_Config::bEnableOOF) {
                             float avail = ImGui::GetContentRegionAvail().x;
@@ -382,19 +372,18 @@ namespace g_DrawImGui {
 
                     ImGui::EndTabBar();
 
-                } // End TabBar
+                }
 
                 ImGui::PopStyleColor(5);
                 ImGui::PopStyleVar(2);
-            } // End Window Begin content
+            }
 
             ImGui::PopStyleColor(2);
             ImGui::PopStyleVar(2);
             ImGui::End();
-        } // End if menu open
+        }
 
-        // ESP »æÖÆ
         g_DrawESP::DrawESP();
     }
 
-} // namespace g_DrawImGui
+}

@@ -1,9 +1,16 @@
-﻿#include "../Minimal-D3D12-Hook-ImGui-1.0.0/Main/mdx12_api.h"
-#include "../CppSDK/SDK.hpp"
+﻿#include "../Minimal-D3D12-Hook-ImGui-1.0.2/Main/mdx12_api.h"
+#include "SDK_Headers.hpp"
 #include "ESP.h"
 #include "Configs.h"
 #include "DrawESP.h"
 #include "DrawImGui.h"
+
+extern "C" {
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/MinHook/src/buffer.c"
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/MinHook/src/hook.c"
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/MinHook/src/trampoline.c"
+#include "../Minimal-D3D12-Hook-ImGui-1.0.2/MinHook/src/hde/hde64.c"
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {

@@ -1,0 +1,43 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(1091,5): warning MSB8027: 名为 dllmain.cpp 的两个或更多文件将生成到同一位置的输出。这会导致错误的生成结果。   调用的文件是 Hack\dllmain.cpp, Minimal-D3D12-Hook-ImGui-1.0.2\Main\dllmain.cpp。
+  dllmain.cpp
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\Basic.hpp(752,38): warning C4369: “SDK::EObjectFlags::AllocatedInSharedPage”: 枚举数的值“2147483648”不能表示为“int”，值是“-2147483648”
+  DrawESP.cpp
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\Basic.hpp(752,38): warning C4369: “SDK::EObjectFlags::AllocatedInSharedPage”: 枚举数的值“2147483648”不能表示为“int”，值是“-2147483648”
+  DrawImGui.cpp
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\Basic.hpp(752,38): warning C4369: “SDK::EObjectFlags::AllocatedInSharedPage”: 枚举数的值“2147483648”不能表示为“int”，值是“-2147483648”
+  ESP.cpp
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\Basic.hpp(752,38): warning C4369: “SDK::EObjectFlags::AllocatedInSharedPage”: 枚举数的值“2147483648”不能表示为“int”，值是“-2147483648”
+  SDK_Impl.cpp
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\Basic.hpp(752,38): warning C4369: “SDK::EObjectFlags::AllocatedInSharedPage”: 枚举数的值“2147483648”不能表示为“int”，值是“-2147483648”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(72,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(72,48): warning C4369: “SDK::EFMODLogging::TYPE_CODEC”: 枚举数的值“400”不能表示为“unsigned char”，值是“144”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(73,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(73,48): warning C4369: “SDK::EFMODLogging::TYPE_TRACE”: 枚举数的值“800”不能表示为“unsigned char”，值是“32”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(74,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(74,50): warning C4369: “SDK::EFMODLogging::DISPLAY_TIMESTAMPS”: 枚举数的值“10000”不能表示为“unsigned char”，值是“16”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(75,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(75,50): warning C4369: “SDK::EFMODLogging::DISPLAY_LINENUMBERS”: 枚举数的值“20000”不能表示为“unsigned char”，值是“32”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(76,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(76,50): warning C4369: “SDK::EFMODLogging::DISPLAY_THREAD”: 枚举数的值“40000”不能表示为“unsigned char”，值是“64”
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(77,2): warning C4309: “初始化”: 截断常量值
+C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\CppSDK\SDK\FMODStudio_structs.hpp(77,50): warning C4369: “SDK::EFMODLogging::EFMODLogging_MAX”: 枚举数的值“40001”不能表示为“unsigned char”，值是“65”
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx12.cpp
+  imgui_impl_win32.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  dllmain.cpp
+  hook.cpp
+  input.cpp
+  mdx12_globals.cpp
+  render.cpp
+  setup_imgui.cpp
+x64\Release\dllmain.obj : warning LNK4042: 对象被多次指定；已忽略多余的指定
+    正在创建库 C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\x64\Release\dragons_legacy.lib 和对象 C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\x64\Release\dragons_legacy.exp
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 2682 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  dragons_legacy.vcxproj -> C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\dragons_legacy\x64\Release\dragons_legacy.dll
