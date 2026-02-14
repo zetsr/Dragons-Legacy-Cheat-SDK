@@ -7,3 +7,5 @@
 
 #include "../CppSDK/SDK/Char_Parent_All_functions.cpp"
 #include "../CppSDK/SDK/Char_Parent_Player_functions.cpp"
+
+#include "../CppSDK/SDK/DragonsPS_functions.cpp"

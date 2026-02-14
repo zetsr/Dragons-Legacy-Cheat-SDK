@@ -1,6 +1,10 @@
 #include "mdx12_api.h"
 
 namespace g_MDX12 {
+    // Fonts
+    ImFont* g_Alibaba_PuHuiTi_Regular = nullptr;
+    ImFont* g_Alibaba_PuHuiTi_Bold = nullptr;
+
     // Hook original function pointers
     namespace g_HookFunctions {
         PFN_Present g_oPresent = nullptr;

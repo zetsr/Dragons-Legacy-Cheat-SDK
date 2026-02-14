@@ -1,4 +1,5 @@
 #include "mdx12_api.h"
+#include "Fonts.h"
 
 #pragma warning(push)
 #pragma warning(disable: 26451)
@@ -139,7 +140,11 @@ namespace g_MDX12 {
             ImFontAtlas* atlas = io.Fonts;
             const ImWchar* range = atlas->GetGlyphRangesChineseFull();
             // 微软雅黑
-            ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 18.0f, NULL, range);
+            // ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc", 18.0f, NULL, range);
+
+            // Alibaba-PuHuiTi-Regular
+            g_MDX12::g_Alibaba_PuHuiTi_Regular = io.Fonts->AddFontFromMemoryTTF(g_Fonts::Alibaba_PuHuiTi_Regular, sizeof(g_Fonts::Alibaba_PuHuiTi_Regular), 18.0f, NULL, range);
+            g_MDX12::g_Alibaba_PuHuiTi_Bold = io.Fonts->AddFontFromMemoryTTF(g_Fonts::Alibaba_PuHuiTi_Bold, sizeof(g_Fonts::Alibaba_PuHuiTi_Bold), 18.0f, NULL, range);
 
             // DX12 后端必须重新初始化，因为 resize 可能会让之前的 backend 对象失效
             ImGui_ImplDX12_Init(g_D3D12Resources::g_pd3dDevice, g_D3D12Resources::g_bufferCount, desc.BufferDesc.Format, g_D3D12Resources::g_pd3dSrvDescHeap, g_D3D12Resources::g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(), g_D3D12Resources::g_pd3dSrvDescHeap->GetGPUDescriptorHandleForHeapStart());

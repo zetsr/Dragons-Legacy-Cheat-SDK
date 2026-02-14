@@ -1,12 +1,6 @@
 #pragma once
 
 namespace g_Config {
-
-    // 辅助函数：将 float[4] 转换为 ImU32
-    inline ImU32 GetU32Color(float color[4]) {
-        return ImGui::ColorConvertFloat4ToU32(*(ImVec4*)color);
-    }
-
     // --- 敌人 ESP 设置 ---
     inline bool bDrawBox = true;
     inline float BoxColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -43,7 +37,7 @@ namespace g_Config {
     // --- OOF 设置 (共享) ---
     inline bool bEnableOOF = true;
     inline float OOFColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    inline float OOFRadius = 0.75f;
+    inline float OOFRadius = 0.95f;
     inline float OOFSize = 12.0f;
     inline float OOFBreathSpeed = 2.0f;
     inline float OOFMinAlpha = 0.25f;

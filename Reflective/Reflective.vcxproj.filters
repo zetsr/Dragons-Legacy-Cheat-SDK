@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Minimal-D3D12-Hook-ImGui-1.0.2">
+      <UniqueIdentifier>{ccf8ff4a-d391-4981-a8a6-ee37cf4fc0de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minimal-D3D12-Hook-ImGui-1.0.2\MinHook">
+      <UniqueIdentifier>{9d6d07dc-0050-4061-813c-a1926a1b71a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minimal-D3D12-Hook-ImGui-1.0.2\MinHook\include">
+      <UniqueIdentifier>{355e7a8c-b07a-4cfa-b51b-02d95a6527eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minimal-D3D12-Hook-ImGui-1.0.2\Main">
+      <UniqueIdentifier>{fc37db74-0da8-4603-835a-c54219fa3bdb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui-1.0.2\Main\hook.cpp">
+      <Filter>Minimal-D3D12-Hook-ImGui-1.0.2\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui-1.0.2\Main\mdx12_globals.cpp">
+      <Filter>Minimal-D3D12-Hook-ImGui-1.0.2\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimal-D3D12-Hook-ImGui-1.0.2\Main\render.cpp">
+      <Filter>Minimal-D3D12-Hook-ImGui-1.0.2\Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="g_dll.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui-1.0.2\MinHook\include\MinHook.h">
+      <Filter>Minimal-D3D12-Hook-ImGui-1.0.2\MinHook\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimal-D3D12-Hook-ImGui-1.0.2\Main\mdx12_api.h">
+      <Filter>Minimal-D3D12-Hook-ImGui-1.0.2\Main</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

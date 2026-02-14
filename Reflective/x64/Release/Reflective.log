@@ -1,0 +1,11 @@
+﻿  dllmain.cpp
+  hook.cpp
+  mdx12_globals.cpp
+  render.cpp
+    正在创建库 C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\Reflective\x64\Release\Reflective.lib 和对象 C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\Reflective\x64\Release\Reflective.exp
+  正在生成代码
+  149 of 153 functions (97.4%) were compiled, the rest were copied from previous compilation.
+    6 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  Reflective.vcxproj -> C:\Users\zetsr\Documents\GitHub\Dragons-Legacy-Cheat-SDK\Reflective\x64\Release\Reflective.dll

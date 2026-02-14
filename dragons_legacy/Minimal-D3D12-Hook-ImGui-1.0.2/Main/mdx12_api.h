@@ -30,6 +30,10 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 // Main namespace for all globals
 namespace g_MDX12 {
+    // Fonts
+    extern ImFont* g_Alibaba_PuHuiTi_Regular;
+    extern ImFont* g_Alibaba_PuHuiTi_Bold;
+
     // Hook function pointer types
     typedef HRESULT(STDMETHODCALLTYPE* PFN_Present)(IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags);
     typedef void(STDMETHODCALLTYPE* PFN_ExecuteCommandLists)(ID3D12CommandQueue* queue, UINT NumCommandLists, ID3D12CommandList* const* ppCommandLists);

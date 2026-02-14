@@ -2,6 +2,7 @@
 #include "SDK_Headers.hpp"
 #include "ESP.h"
 #include "Configs.h"
+#include "Util.h"
 #include <cmath>
 #include <algorithm>
 
@@ -10,10 +11,6 @@ namespace g_ESP {
         SDK::UWorld* World = SDK::UWorld::GetWorld();
         if (!World || !World->OwningGameInstance || !World->OwningGameInstance->LocalPlayers || World->OwningGameInstance->LocalPlayers.Num() == 0 || !World->OwningGameInstance->LocalPlayers[0]) return nullptr;
         return World->OwningGameInstance->LocalPlayers[0]->PlayerController;
-    }
-
-    inline ImU32 ToImColor(float r, float g, float b, float a) {
-        return ImGui::ColorConvertFloat4ToU32(ImVec4(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f));
     }
 
     RelationType GetPlayerRelation(SDK::APlayerState* targetPS, SDK::APlayerState* localPS) {
@@ -37,19 +34,21 @@ namespace g_ESP {
 
     void FlagManager::AddFlag(BoxRect rect, const std::string& text, ImU32 color, FlagPos pos) {
         if (!rect.valid || text.empty()) return;
+
         ImDrawList* drawList = ImGui::GetBackgroundDrawList();
         ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
         ImVec2 drawPos;
 
         if (pos == FlagPos::Right) {
             drawPos = ImVec2(rect.bottomRight.x + 5.0f, rect.topLeft.y + rightY);
-            rightY += textSize.y + 1.0f;
+            rightY += textSize.y + 1;
         }
         else {
             drawPos = ImVec2(rect.topLeft.x - 8.0f - textSize.x, rect.topLeft.y + leftY);
-            leftY += textSize.y + 1.0f;
+            leftY += textSize.y + 1;
         }
-        drawList->AddText(ImVec2(drawPos.x + 1, drawPos.y + 1), ToImColor(0, 0, 0, 255), text.c_str());
+
+        drawList->AddText(ImVec2(drawPos.x + 1, drawPos.y + 1), g_Util::ToImColor(0, 0, 0, 255), text.c_str());
         drawList->AddText(drawPos, color, text.c_str());
     }
 
@@ -117,7 +116,7 @@ namespace g_ESP {
             float tx = std::clamp(drawPos.x - (textSize.x * 0.5f), 10.0f, screenSize.x - textSize.x - 10.0f);
             float ty = std::clamp(drawPos.y + textOffsetY, 10.0f, screenSize.y - textSize.y - 10.0f);
 
-            drawList->AddText(ImVec2(tx + 1, ty + 1), ToImColor(0, 0, 0, 200), flag.text.c_str());
+            drawList->AddText(ImVec2(tx + 1, ty + 1), g_Util::ToImColor(0, 0, 0, 200), flag.text.c_str());
             drawList->AddText(ImVec2(tx, ty), flag.color, flag.text.c_str());
             textOffsetY += textSize.y + 1.0f;
         }
@@ -148,8 +147,8 @@ namespace g_ESP {
                 ImDrawList* drawList = ImGui::GetBackgroundDrawList();
                 drawList->AddRect(ImVec2(rect.topLeft.x - 1, rect.topLeft.y - 1),
                     ImVec2(rect.bottomRight.x + 1, rect.bottomRight.y + 1),
-                    ToImColor(0, 0, 0, a), 0.0f, 0, 1.5f);
-                drawList->AddRect(rect.topLeft, rect.bottomRight, ToImColor(r, g, b, a), 0.0f, 0, 1.0f);
+                    g_Util::ToImColor(0, 0, 0, a), 0.0f, 0, 1.5f);
+                drawList->AddRect(rect.topLeft, rect.bottomRight, g_Util::ToImColor(r, g, b, a), 0.0f, 0, 1.0f);
             }
         }
         return rect;
@@ -164,7 +163,7 @@ namespace g_ESP {
         ImVec2 barBgTop = ImVec2(rect.topLeft.x - barMargin - barWidth, rect.topLeft.y);
         ImVec2 barBgBottom = ImVec2(rect.topLeft.x - barMargin, rect.bottomRight.y);
 
-        drawList->AddRectFilled(ImVec2(barBgTop.x - 1, barBgTop.y - 1), ImVec2(barBgBottom.x + 1, barBgBottom.y + 1), ToImColor(0, 0, 0, a * 0.7f));
+        drawList->AddRectFilled(ImVec2(barBgTop.x - 1, barBgTop.y - 1), ImVec2(barBgBottom.x + 1, barBgBottom.y + 1), g_Util::ToImColor(0, 0, 0, a * 0.7f));
         float percentage = healthPercent / maxHealth;
         percentage = (percentage > 1.0f) ? 1.0f : (percentage < 0.0f ? 0.0f : percentage);
 
@@ -183,6 +182,7 @@ namespace g_ESP {
 
     void DrawName(SDK::AActor* entity, BoxRect rect, float r, float g, float b, float a) {
         if (!rect.valid || !entity) return;
+        ImGui::PushFont(g_MDX12::g_Alibaba_PuHuiTi_Bold);
 
         // 使用 FString 初始化默认显示内容
         SDK::FString fName = L"未知生物";
@@ -213,7 +213,9 @@ namespace g_ESP {
         ImVec2 textSize = ImGui::CalcTextSize(utf8Name.c_str());
         ImVec2 textPos = ImVec2(rect.topLeft.x + (rect.bottomRight.x - rect.topLeft.x) / 2.0f - textSize.x / 2.0f, rect.topLeft.y - textSize.y - 5.0f);
 
-        drawList->AddText(ImVec2(textPos.x + 1, textPos.y + 1), ToImColor(0, 0, 0, a), utf8Name.c_str());
-        drawList->AddText(textPos, ToImColor(r, g, b, a), utf8Name.c_str());
+        drawList->AddText(ImVec2(textPos.x + 1, textPos.y + 1), g_Util::ToImColor(0, 0, 0, a), utf8Name.c_str());
+        drawList->AddText(textPos, g_Util::ToImColor(r, g, b, a), utf8Name.c_str());
+
+        ImGui::PopFont();
     }
 }
